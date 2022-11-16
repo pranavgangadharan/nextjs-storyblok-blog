@@ -3,17 +3,16 @@ import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import { getHomeContent } from '../lib/api'
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const homeContent = await getHomeContent();
   return {
     props: {
       homeContent
     },
-    // revalidate: 10,
   };
 }
 
-export default function Home({homeContent}) {
+export default function HomeSsr({homeContent}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -31,7 +30,7 @@ export default function Home({homeContent}) {
         </p>
 
         <p className={styles.description}>
-          <Link href="/blogs" style={{"color": "blue"}}> 
+          <Link href="/blogs-ssr" style={{"color": "blue"}}> 
             {homeContent?.blogNav}
           </Link>
         </p>

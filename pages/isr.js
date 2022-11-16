@@ -9,11 +9,11 @@ export async function getStaticProps() {
     props: {
       homeContent
     },
-    // revalidate: 10,
+    revalidate: 10,
   };
 }
 
-export default function Home({homeContent}) {
+export default function HomeIsr({homeContent}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -31,7 +31,7 @@ export default function Home({homeContent}) {
         </p>
 
         <p className={styles.description}>
-          <Link href="/blogs" style={{"color": "blue"}}> 
+          <Link href="/blogs-isr" style={{"color": "blue"}}> 
             {homeContent?.blogNav}
           </Link>
         </p>

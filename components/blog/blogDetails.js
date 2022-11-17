@@ -1,10 +1,11 @@
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import StoryblokClient from "storyblok-js-client";
+import { APP_TOKEN } from "../../config/config";
 
 export default function BlogDetails({ blog }) {
   let Storyblok = new StoryblokClient({
-    accessToken: "GSgDPPR2m3gzyDcup1NHlgtt",
+    accessToken: process.env.REACT_APP_STORYBLOK_TOKEN || APP_TOKEN,
   });
   const createMarkup = (storyblokHTML) => {
     return {

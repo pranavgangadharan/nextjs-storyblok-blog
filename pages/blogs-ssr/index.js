@@ -1,40 +1,30 @@
-import Head from "next/head";
-import styles from "../../styles/Home.module.css";
-import { getBlogList } from "../../lib/api";
-import Link from "next/link";
+import { getBlogList, getFooterContent, getHeaderContent } from "../../lib/api";
+import Blogs from "../../components/blog/blogList";
+import Layout from "../../components/layout";
 
 export async function getServerSideProps() {
-  const blogList = await getBlogList();
+  const headerData = (await getHeaderContent()) || null;
+  const footerData = (await getFooterContent()) || null;
+  const blogList = (await getBlogList()) || null;
   return {
     props: {
       blogList,
+      headerData,
+      footerData,
     },
   };
 }
 
-export default function BlogList({ blogList }) {
+export default function BlogList({
+  blogList = null,
+  headerData = null,
+  footerData = null,
+}) {
+  const headerContent = headerData && headerData.length > 0 && headerData[0].content;
+  const footerContent = footerData && footerData.length > 0 && footerData[0].content;
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Blogs</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <div className={styles.grid}>
-          {blogList && blogList.length
-            ? blogList.map((blog) => (
-                <Link
-                  href={`/blogs-ssr/${blog.slug}`}
-                  className={styles.card}
-                  key={blog.slug}
-                >
-                  <h2>{blog.content.Title}</h2>
-                </Link>
-              ))
-            : null}
-        </div>
-      </main>
-    </div>
+    <Layout headerContent={headerContent} footerContent={footerContent} mode="ssr">
+      <Blogs blogList={blogList} mode="ssr"/>
+    </Layout>
   );
 }

@@ -1,40 +1,27 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import styles from '../styles/Home.module.css'
-import { getHomeContent } from '../lib/api'
+import HomeContent from '../components/home';
+import Layout from '../components/layout';
+import { getFooterContent, getHeaderContent, getHomeContent } from '../lib/api'
 
 export async function getServerSideProps() {
-  const homeContent = await getHomeContent();
+  const headerData = await getHeaderContent() || null;
+  const footerData = await getFooterContent() || null;
+  const homeData= await getHomeContent() || null;
   return {
     props: {
-      homeContent
+      homeData,
+      headerData,
+      footerData
     },
   };
 }
 
-export default function HomeSsr({homeContent}) {
+export default function Home({homeData = null, headerData = null, footerData = null}) {
+  const headerContent = headerData && headerData.length > 0 && headerData[0].content;
+  const footerContent = footerData && footerData.length > 0 && footerData[0].content;
+  const homeContent = homeData && homeData.length > 0 && homeData[0].content;
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>{homeContent?.Title}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          {homeContent?.Title}
-        </h1>
-
-        <p className={styles.description}>
-          {homeContent?.subtitle}
-        </p>
-
-        <p className={styles.description}>
-          <Link href="/blogs-ssr" style={{"color": "blue"}}> 
-            {homeContent?.blogNav}
-          </Link>
-        </p>
-      </main>
-    </div>
+    <Layout headerContent={headerContent} footerContent={footerContent} mode="ssr">
+      <HomeContent homeContent={homeContent} mode="ssr"/>
+    </Layout>
   )
 }

@@ -1,41 +1,30 @@
-import Head from 'next/head'
-import { getAllBlogSlugs, getBlogBySlug } from '../../lib/api';
-import styles from '../../styles/Home.module.css'
+import BlogDetails from '../../components/blog/blogDetails';
+import Layout from '../../components/layout';
+import { getBlogBySlug, getFooterContent, getHeaderContent } from '../../lib/api';
 
 export async function getServerSideProps({params}) {
-  const blog = await getBlogBySlug(params.slug);
+  const headerData = (await getHeaderContent()) || null;
+  const footerData = (await getFooterContent()) || null;
+  const blog = await getBlogBySlug(params.slug) || null;
   return {
     props: {
       blog,
+      headerData,
+      footerData
     },
   };
 }
 
-export async function getServerSidePaths() {
-  const paths = await getAllBlogSlugs();
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-export default function Blog({blog}) {
+export default function Blog({
+  blog = null,
+  headerData = null,
+  footerData = null,
+}) {
+  const headerContent = headerData && headerData.length > 0 && headerData[0].content;
+  const footerContent = footerData && footerData.length > 0 && footerData[0].content;
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>{blog.Title}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          {blog.Title}
-        </h1>
-
-        <p className={styles.description}>
-          {blog.Content}
-        </p>
-      </main>
-    </div>
-  )
+    <Layout headerContent={headerContent} footerContent={footerContent} mode="ssr">
+      <BlogDetails blog={blog && blog} />
+    </Layout>
+  );
 }

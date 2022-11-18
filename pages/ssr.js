@@ -18,10 +18,10 @@ export async function getServerSideProps() {
 export default function Home({homeData = null, headerData = null, footerData = null}) {
   const headerContent = headerData && headerData.length > 0 && headerData[0].content;
   const footerContent = footerData && footerData.length > 0 && footerData[0].content;
-  const homeContent = homeData && homeData.length > 0 && homeData[0].content;
+  const homeContent = homeData && homeData.length > 0 && homeData[0];
   return (
-    <Layout headerContent={headerContent} footerContent={footerContent} mode="ssr">
-      <HomeContent homeContent={homeContent} mode="ssr"/>
+    <Layout headerContent={headerContent || null} footerContent={footerContent || null} mode="ssr">
+      <HomeContent homeContent={homeContent || null} mode="ssr"/>
     </Layout>
   )
 }

@@ -19,10 +19,10 @@ export async function getStaticProps() {
 export default function Home({homeData = null, headerData = null, footerData = null}) {
   const headerContent = headerData && headerData.length > 0 && headerData[0].content;
   const footerContent = footerData && footerData.length > 0 && footerData[0].content;
-  const homeContent = homeData && homeData.length > 0 && homeData[0].content;
+  const homeContent = homeData && homeData.length > 0 && homeData[0];
   return (
-    <Layout headerContent={headerContent} footerContent={footerContent} mode="isr">
-      <HomeContent homeContent={homeContent} mode="isr"/>
+    <Layout headerContent={headerContent || null} footerContent={footerContent || null} mode="isr">
+      <HomeContent homeContent={homeContent || null}mode="isr"/>
     </Layout>
   )
 }

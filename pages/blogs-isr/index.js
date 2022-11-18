@@ -24,8 +24,8 @@ export default function BlogList({
   const headerContent = headerData && headerData.length > 0 && headerData[0].content;
   const footerContent = footerData && footerData.length > 0 && footerData[0].content;
   return (
-    <Layout headerContent={headerContent} footerContent={footerContent} mode="isr">
-      <Blogs blogList={blogList} mode="isr"/>
+    <Layout headerContent={headerContent || null} footerContent={footerContent || null} mode="isr">
+      <Blogs blogList={blogList || null} mode="isr"/>
     </Layout>
   );
 }

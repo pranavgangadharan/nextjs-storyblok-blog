@@ -23,8 +23,8 @@ export default function Blog({
   const headerContent = headerData && headerData.length > 0 && headerData[0].content;
   const footerContent = footerData && footerData.length > 0 && footerData[0].content;
   return (
-    <Layout headerContent={headerContent} footerContent={footerContent} mode="ssr">
-      <BlogDetails blog={blog && blog} />
+    <Layout headerContent={headerContent || null} footerContent={footerContent || null} mode="ssr">
+      <BlogDetails blog={blog || null} />
     </Layout>
   );
 }

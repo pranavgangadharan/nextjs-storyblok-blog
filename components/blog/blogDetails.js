@@ -1,4 +1,3 @@
-import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import StoryblokClient from "storyblok-js-client";
 import { APP_TOKEN } from "../../config/config";
@@ -14,10 +13,6 @@ export default function BlogDetails({ blog }) {
   };
   return (
     <>
-      <Head>
-        <title>{blog?.Title}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
       <h1 className={styles.title}>{blog?.Title}</h1>
       {/* <Image

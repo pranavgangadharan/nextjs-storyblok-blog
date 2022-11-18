@@ -5,11 +5,6 @@ import styles from "../../styles/Home.module.css";
 export default function Blogs({ blogList, mode="" }) {
   return (
     <>
-      <Head>
-        <title>Blogs</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <div className={styles.grid}>
         {blogList && blogList.length
           ? blogList.map((blog) => (
